@@ -1,0 +1,8 @@
+isoCountryCode,isoSubDivisionCode,isoLanguageCode,isDefault,isGlobalDefault
+USA,,eng,true,true
+LUX,,ltz,true,true
+LUX,,fra,true,false
+LUX,,deu,false,false
+UKR,,ukr,true,true
+DEU,,deu,true,true
+FRA,,fra,true,true
