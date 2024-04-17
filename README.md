@@ -1,4 +1,4 @@
-_# Intellias OSM-to-NDS.Live Compiler
+# Intellias OSM-to-NDS.Live Compiler
 
 This project aims to provide a compiler from [Open Street Map (OSM)](https://www.openstreetmap.org) data into [NDS.Live](https://nds.live/) - a modern format for navigational
 map services. Compiler is created by Intellias and distributed as an open source software to help you get familiar with
