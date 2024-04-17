@@ -51,5 +51,9 @@ class FileStorage(folderConf: StorageAPI) extends Service {
   }
 }
 object FileStorage {
-  def apply(folderConf: StorageAPI): FileStorage = new FileStorage(folderConf)
+  def apply(folderConf: StorageAPI): FileStorage = {
+    Files.createDirectories(Paths.get(folderConf.savePath))
+    Files.createDirectories(Paths.get(folderConf.failurePath))
+    new FileStorage(folderConf)
+  }
 }

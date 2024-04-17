@@ -21,6 +21,7 @@
         <scala.compat.version>2.13</scala.compat.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <maven.assembly.version>3.6.0</maven.assembly.version>
         <scalatest.version>3.2.10</scalatest.version>
         <spec2.version>4.20.0</spec2.version>
         <spark.version>3.3.2</spark.version>
@@ -33,7 +34,7 @@
 
     <repositories>
         <repository>
-            <id>intellias-gitlab-maven</id>
+            <id>intellias-oss-maven</id>
             <url>https://gitlab.com/api/v4/groups/70106860/-/packages/maven</url>
         </repository>
         <repository>
@@ -113,6 +114,38 @@
                         <id>test</id>
                         <goals>
                             <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.version}</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.intellias.osm.Main</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Add-Opens>java.base/java.lang java.base/java.nio java.base/java.util java.base/java.lang.reflect java.base/java.lang.invoke java.base/sun.security.action java.base/java.io</Add-Opens>
+                            <Add-Exports>java.base/sun.nio.ch jdk.unsupported/sun.misc</Add-Exports>
+                        </manifestEntries>
+                    </archive>
+                    <filters>
+                        <filter>**/Log4j2Plugins.dat</filter>
+                        <filter>**/mapping/</filter>
+                    </filters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
