@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  compiler:
+    image: registry.gitlab.com/intellias/nds_practice/osm-nds/osm-nds-live-compiler
+    environment:
+      JAVA_OPS: "-Xmx16G"
+    ports:
+      - "4040:4040"
+    volumes:
+      # path to the parquetized OSM data
+      - <TBD>:/compiler/input
+      # output directory where compiled NDS.Live data will be placed into
+      - <TBD>:/compiler/output
+      # pre-built *.parquet files containing admin hierarchy for the country to be compiled
+      - <TBD>:/compiler/admin-hierarchy
