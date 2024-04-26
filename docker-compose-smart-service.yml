@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  nds-smart:
+    image: registry.gitlab.com/intellias/compiler-oss/intellias-tile-service
+    environment:
+      STORAGE_PATH: "/app/intellias/nds/"
+      ENABLE_ROAD_STATISTIC: "true"
+      ROAD_LAYER_ENABLED: "true"
+      ROAD_GEOMETRY_LAYER_ENABLED: "true"
+      ROAD_CHARACTERISTICS_LAYER_ENABLED: "true"
+      ROAD_RULES_LAYER_ENABLED: "true"
+      ROAD_NAME_LAYER_ENABLED: "true"
+      POI_LAYER_ENABLED: "true"
+      POI_ATTRIBUTE_LAYER_ENABLED: "true"
+      POI_NAME_LAYER_ENABLED: "true"
+      DISPLAY_LAYER_ENABLED: "true"
+      DISPLAY_ATTRIBUTE_LAYER_ENABLED: "true"
+      DISPLAY_NAME_LAYER_ENABLED: "true"
+    ports:
+      - "8080:8080"
+    volumes:
+      # specify path to the directory where compiled NDS.Live partitions are stored
+      - <TBD>:/app/intellias/nds

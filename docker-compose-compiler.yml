@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   compiler:
-    image: registry.gitlab.com/intellias/nds_practice/osm-nds/osm-nds-live-compiler
+    image: registry.gitlab.com/intellias/compiler-oss/intellias-oss-compiler
     environment:
       JAVA_OPS: "-Xmx16G"
     ports:

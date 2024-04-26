@@ -35,7 +35,7 @@
     <repositories>
         <repository>
             <id>intellias-oss-maven</id>
-            <url>https://gitlab.com/api/v4/groups/70106860/-/packages/maven</url>
+            <url>https://gitlab.com/api/v4/projects/57286105/packages/maven</url>
         </repository>
         <repository>
             <id>central</id>

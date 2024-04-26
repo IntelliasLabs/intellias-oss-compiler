@@ -59,11 +59,14 @@ Only Docker installation is required.
 
 To pull the Compiler Docker image, you need to authorize to registry.gitlab.com.
 ```shell
-docker login registry.gitlab.com
+docker login registry.gitlab.com -u intellias-oss
 ```
 
 > [!IMPORTANT]
 > Credentials need to be requested from Intellias
+
+> [!NOTE]
+> In case if you've already requested an access token for Maven configuration, you can re-use it for pulling Docker images
 
 <br/>
 
@@ -154,4 +157,23 @@ Web services that expose the NDS.Live map data.
 
 Intellias offers a Smart Layer Tile server Docker image that you can use to access and expose the compiled data.
 
-TBD
+In case if you haven't yet authorized into the Intellias Container Registry, please refer the `Docker image utilization`
+section to see how to do this.
+
+When authorized, you can start the dockerized Smart Layer Tile service with a docker-compose command, but before some
+amendments to the `docker-compose-smart-service.yml` need to be done. The only thing that needs to be provided there - is
+the path to a directory where compiled NDS.Live map data is stored (see comments inside the docker-compose file). Optionally
+you can also disable some of the compiled layers, change port to which the RESTful service is mapped etc.
+
+When the mentioned modifications to the docker-compose file are done, you can start the service by executing:
+```shell
+docker-compose -f docker-compose-smart-service.yml up
+```
+
+To persuade that service is up and running, open your browser and navigate to `http://localhost:8080/swagger-ui/index.html` - 
+you should be able to see the Swagger UI page with the list of endpoints exposed by the RESTful service.
+
+With the Smart Layer Tile service running, you can use tooling provided by NDS Association to work with the compiled map
+data. For example, you may use [Live.Lab](https://developer.nds.live/tools/livelab) tool to inspect the compiled data and 
+[Map Viewer](https://developer.nds.live/tools/mapviewer) to render it, or you can validate and certify the compiled data 
+with [Certification Kit](https://developer.nds.live/certification-and-validation).

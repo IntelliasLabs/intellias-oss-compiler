@@ -4,3 +4,4 @@
 /.idea/
 /target/
 my-application*.conf
+my-docker-compose*.yml
