@@ -47,9 +47,10 @@ case class NdsLiveRoadIntersectionConverter(conf: NdsLiveConfig) extends NdsConv
         .map {
           case (_, intersections) => merge(intersections)
         }
+        .filter(_.topologies.nonEmpty)
         .zipWithIndex
         .map {
-          case (interim, idx) => toIntersection(interim, idx + 1, topoIds, topoMap)
+          case (interim, idx) => toIntersection(interim, idx + 1, topoMap)
         }.toArray
 
       val roadLayer = new RoadLayer(
@@ -94,21 +95,22 @@ case class NdsLiveRoadIntersectionConverter(conf: NdsLiveConfig) extends NdsConv
   }
   private def toIntersection(inter: IntersectionInterim,
                              intersectionId: Int,
-                             topoIds: Map[String, Int],
                              topologies: Map[String, NdsRoad]): NdsIntersection = {
+    val isArtificial = inter.topologies.length <= 1
     new NdsIntersection(
       coordRoadShiftByte,
       intersectionId,
-      inter.isVirtual,
+      isArtificial,
       inter.zLevel,
       inter.topologies.length.toShort,
       inter.position,
       inter.topologies.map { id =>
-        new IntersectionRoadReference(
-          inter.isVirtual,
-          new Var4ByteDirectedReference(topoIds(id)),
-          calculateAngle(inter, topologies(id))
-        )
+        val intRoadRef = new IntersectionRoadReference(isArtificial)
+        intRoadRef.setRoad(determineConnectedRoadId(inter, topologies(id)))
+        if (!isArtificial) {
+          intRoadRef.setAngle(calculateAngle(inter, topologies(id)))
+        }
+        intRoadRef
       }
     )
   }
@@ -137,6 +139,11 @@ case class NdsLiveRoadIntersectionConverter(conf: NdsLiveConfig) extends NdsConv
     }
     // convert to NDS.Live compatible format: ...sectors of ~1.4 degrees. Value 0 indicates north; values increase clockwise.
     (azimuthDegrees / 1.41).toShort
+  }
+
+  private def determineConnectedRoadId(intersection: IntersectionInterim, road: NdsRoad): Var4ByteDirectedReference = {
+    val isRefNode = intersection.positionWgs.distance(road.nodes.head) < intersection.positionWgs.distance(road.nodes.last);
+    new Var4ByteDirectedReference(road.ndsRoadId * (if (isRefNode) 1 else -1))
   }
 
   private case class IntersectionInterim(position: Position2D,

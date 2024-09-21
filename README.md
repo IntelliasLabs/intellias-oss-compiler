@@ -59,7 +59,7 @@ Only Docker installation is required.
 
 To pull the Compiler Docker image, you need to authorize to registry.gitlab.com.
 ```shell
-docker login registry.gitlab.com -u intellias-oss
+docker login registry.gitlab.com -u oss-packages
 ```
 
 > [!IMPORTANT]
